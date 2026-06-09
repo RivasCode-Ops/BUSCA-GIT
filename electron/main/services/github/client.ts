@@ -1,5 +1,9 @@
 import { Octokit } from '@octokit/rest'
 import { RepoMetadata } from '@shared/contracts/analyze'
+import { getSettings } from '../storage/db'
+
+let octokit: Octokit | null = null
+let currentToken = ''
 
 export function parseUrl(url: string): { owner: string; repo: string } {
   const match = url.match(/github\.com\/([^/]+)\/([^/]+)/)
@@ -7,15 +11,32 @@ export function parseUrl(url: string): { owner: string; repo: string } {
   return { owner: match[1], repo: match[2].replace(/\.git$/, '') }
 }
 
-let octokit: Octokit | null = null
+export async function initToken(): Promise<void> {
+  const token = process.env.GITHUB_TOKEN || (await getSettings()).githubToken
+  if (token) {
+    currentToken = token
+    octokit = new Octokit({ auth: token })
+  } else {
+    octokit = new Octokit()
+    console.warn('SEM TOKEN — apenas 60 req/h')
+  }
+}
+
+export async function updateToken(token: string): Promise<void> {
+  currentToken = token
+  octokit = token ? new Octokit({ auth: token }) : new Octokit()
+}
 
 export function getClient(): Octokit {
   if (!octokit) {
-    octokit = new Octokit({
-      auth: process.env.GITHUB_TOKEN
-    })
+    octokit = new Octokit()
   }
   return octokit
+}
+
+export function getTokenPreview(): string {
+  if (!currentToken) return ''
+  return currentToken.slice(0, 8) + '...' + currentToken.slice(-4)
 }
 
 export async function getRepoMetadata(url: string): Promise<RepoMetadata> {

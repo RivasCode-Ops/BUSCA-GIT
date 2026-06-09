@@ -1,6 +1,8 @@
+import 'dotenv/config'
 import { app, BrowserWindow, shell } from 'electron'
 import { join } from 'path'
 import { registerIpcHandlers } from './ipc'
+import { initToken } from './services/github/client'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -26,7 +28,8 @@ function createWindow(): void {
   })
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await initToken()
   registerIpcHandlers()
   createWindow()
 

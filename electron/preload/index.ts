@@ -10,7 +10,9 @@ const api = {
   getSettings: () =>
     ipcRenderer.invoke('busca:settings', 'get'),
   updateSettings: (settings: Record<string, unknown>) =>
-    ipcRenderer.invoke('busca:settings', 'set', settings)
+    ipcRenderer.invoke('busca:settings', 'set', settings),
+  getTokenStatus: () =>
+    ipcRenderer.invoke('busca:settings', 'token-status')
 }
 
 contextBridge.exposeInMainWorld('buscaGit', api)
