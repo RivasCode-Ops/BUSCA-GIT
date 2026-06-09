@@ -47,3 +47,16 @@ body {
 .commit-item:last-child { border: none; }
 .commit-item .msg { color: #e4e4e7; }
 .commit-item .meta { color: #71717a; font-size: 12px; margin-top: 2px; }
+.search-result {
+  background: #18181b; border: 1px solid #27272a; border-radius: 10px; padding: 14px;
+  margin-bottom: 10px; cursor: pointer; transition: border-color .15s;
+}
+.search-result:hover { border-color: #6366f1; }
+.search-result h3 { font-size: 14px; font-weight: 600; color: #818cf8; }
+.search-result p { font-size: 13px; color: #a1a1aa; margin: 4px 0; }
+.search-result .meta { display: flex; gap: 12px; font-size: 12px; color: #71717a; }
+.search-result .meta span { display: flex; align-items: center; gap: 4px; }
+.tab-bar { display: flex; gap: 0; margin-bottom: 20px; background: #18181b; border-radius: 10px; overflow: hidden; border: 1px solid #27272a; }
+.tab { flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; color: #71717a; background: none; border: none; }
+.tab.active { background: #6366f1; color: #fff; }
+.tab:hover:not(.active) { background: #27272a; }

@@ -12,7 +12,9 @@ const api = {
   updateSettings: (settings: Record<string, unknown>) =>
     ipcRenderer.invoke('busca:settings', 'set', settings),
   getTokenStatus: () =>
-    ipcRenderer.invoke('busca:settings', 'token-status')
+    ipcRenderer.invoke('busca:settings', 'token-status'),
+  searchRepos: (query: string) =>
+    ipcRenderer.invoke('busca:search-repos', query)
 }
 
 contextBridge.exposeInMainWorld('buscaGit', api)
