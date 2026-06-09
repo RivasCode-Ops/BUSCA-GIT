@@ -1,5 +1,3 @@
-import { saveHistory, getHistory } from './db'
-
 export interface HistoryEntry {
   id: number
   url: string
@@ -7,15 +5,13 @@ export interface HistoryEntry {
   createdAt: string
 }
 
-export function addToHistory(url: string, result: string): void {
-  saveHistory(url, result)
+import { getHistory, saveHistory } from './db'
+
+export async function addToHistory(url: string, result: string): Promise<void> {
+  await saveHistory(url, result)
 }
 
-export function listHistory(limit = 20): HistoryEntry[] {
-  return getHistory(limit).map(h => ({
-    id: h.id,
-    url: h.url,
-    result: h.result,
-    createdAt: h.created_at
-  }))
+export async function listHistory(limit = 20): Promise<HistoryEntry[]> {
+  const rows = await getHistory(limit)
+  return rows.map(r => ({ ...r, createdAt: r.created_at }))
 }

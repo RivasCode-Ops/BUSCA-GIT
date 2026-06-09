@@ -7,7 +7,7 @@ export async function handleSettings(
   payload?: Partial<Settings>
 ): Promise<Settings> {
   if (action === 'set' && payload) {
-    return updateSettings(payload)
+    return await updateSettings(payload)
   }
-  return getSettings()
+  return await getSettings()
 }

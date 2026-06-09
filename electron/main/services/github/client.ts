@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest'
 import { RepoMetadata } from '@shared/contracts/analyze'
 
-function parseUrl(url: string): { owner: string; repo: string } {
+export function parseUrl(url: string): { owner: string; repo: string } {
   const match = url.match(/github\.com\/([^/]+)\/([^/]+)/)
   if (!match) throw new Error('URL inválida')
   return { owner: match[1], repo: match[2].replace(/\.git$/, '') }
@@ -9,7 +9,7 @@ function parseUrl(url: string): { owner: string; repo: string } {
 
 let octokit: Octokit | null = null
 
-function getClient(): Octokit {
+export function getClient(): Octokit {
   if (!octokit) {
     octokit = new Octokit({
       auth: process.env.GITHUB_TOKEN
